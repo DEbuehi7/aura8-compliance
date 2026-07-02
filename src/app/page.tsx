@@ -1,8 +1,107 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, CSSProperties } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './page.module.css';
+
+const styles = {
+  container: {
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#0a0a0a',
+    padding: '1rem',
+  } as CSSProperties,
+  card: {
+    width: '100%',
+    maxWidth: '400px',
+    background: '#121214',
+    border: '1px solid #2a2a2e',
+    borderRadius: '8px',
+    padding: '2rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem',
+  } as CSSProperties,
+  header: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem',
+  } as CSSProperties,
+  logo: {
+    fontSize: '0.75rem',
+    fontWeight: '600',
+    color: '#ec4899',
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+  } as CSSProperties,
+  title: {
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    color: '#ffffff',
+    margin: 0,
+  } as CSSProperties,
+  subtitle: {
+    fontSize: '0.875rem',
+    color: '#999999',
+    margin: 0,
+  } as CSSProperties,
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+  } as CSSProperties,
+  formGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem',
+  } as CSSProperties,
+  label: {
+    fontSize: '0.875rem',
+    fontWeight: '500',
+    color: '#cccccc',
+  } as CSSProperties,
+  input: {
+    padding: '0.5rem 1rem',
+    background: '#1a1a1d',
+    border: '1px solid #3f3f46',
+    borderRadius: '6px',
+    color: '#ffffff',
+    fontSize: '1rem',
+    outline: 'none',
+    transition: 'border-color 0.2s',
+    fontFamily: 'inherit',
+  } as CSSProperties,
+  error: {
+    padding: '0.75rem',
+    background: 'rgba(255, 0, 0, 0.1)',
+    border: '1px solid rgba(255, 0, 0, 0.3)',
+    borderRadius: '4px',
+    color: '#ff6b6b',
+    fontSize: '0.875rem',
+  } as CSSProperties,
+  button: {
+    padding: '0.5rem 1rem',
+    background: '#ec4899',
+    color: '#ffffff',
+    fontWeight: '600',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    transition: 'background-color 0.2s',
+    fontSize: '1rem',
+  } as CSSProperties,
+  footer: {
+    paddingTop: '1rem',
+    borderTop: '1px solid #2a2a2e',
+    textAlign: 'center',
+    fontSize: '0.75rem',
+    color: '#808080',
+  } as CSSProperties,
+  footerP: {
+    margin: '0.25rem 0',
+  } as CSSProperties,
+};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -84,8 +183,8 @@ export default function LoginPage() {
         </form>
 
         <div style={styles.footer}>
-          <p>Authorized Visa/Mastercard compliance personnel only.</p>
-          <p>All access is logged and audited.</p>
+          <p style={styles.footerP}>Authorized Visa/Mastercard compliance personnel only.</p>
+          <p style={styles.footerP}>All access is logged and audited.</p>
         </div>
       </div>
     </div>
