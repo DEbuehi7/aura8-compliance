@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Aura8 Compliance',
@@ -17,3 +16,4 @@ export default function RootLayout({
     </html>
   );
 }
+
