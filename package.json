@@ -11,15 +11,12 @@
   "dependencies": {
     "next": "15.3.4",
     "react": "19.2.7",
-    "react-dom": "19.2.7",
-    "@supabase/supabase-js": "^2.44.2",
-    "bcryptjs": "^2.4.3"
+    "react-dom": "19.2.7"
   },
   "devDependencies": {
     "typescript": "^5.7.3",
     "@types/node": "^20.17.6",
     "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.1",
-    "@types/bcryptjs": "^2.4.6"
+    "@types/react-dom": "^19.0.1"
   }
 }
