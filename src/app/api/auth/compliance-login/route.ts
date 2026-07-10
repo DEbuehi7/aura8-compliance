@@ -8,8 +8,9 @@ export async function POST(request: NextRequest) {
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
+      console.error('Missing Supabase env vars:', { supabaseUrl: !!supabaseUrl, supabaseKey: !!supabaseKey });
       return NextResponse.json(
-        { error: 'Supabase configuration missing' },
+        { error: 'Server configuration error' },
         { status: 500 }
       );
     }
