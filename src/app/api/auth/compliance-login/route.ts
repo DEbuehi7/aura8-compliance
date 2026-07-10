@@ -82,6 +82,7 @@ export async function POST(request: NextRequest) {
   const jwtSecret = process.env.JWT_SECRET ?? 'change-me-in-production';
 
   if (!supabaseUrl || !supabaseKey) {
+    console.error('Missing Supabase config:', { supabaseUrl, supabaseKey: !!supabaseKey });
     return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
   }
 
@@ -105,12 +106,22 @@ export async function POST(request: NextRequest) {
   // ------------------------------------------------------------------
 
   const dbStart = Date.now();
+  console.log(`[LOGIN] Querying account: ${username}`);
+  
   const { data: account, error: dbError } = await supabase
     .from('compliance_accounts')
     .select('id, username, password_hash, active, role, organization, expires_at')
     .eq('username', username)
     .single();
+  
   const dbQueryTime = Date.now() - dbStart;
+
+  console.log(`[LOGIN] Query result:`, { 
+    found: !!account, 
+    error: dbError?.message, 
+    dbQueryTime,
+    accountData: account ? { id: account.id, username: account.username, active: account.active } : null
+  });
 
   const totalTime = () => Date.now() - startTime;
 
@@ -123,21 +134,26 @@ export async function POST(request: NextRequest) {
   };
 
   if (dbError || !account) {
+    console.log(`[LOGIN] Account not found: ${username}`);
     audit('login_fail_unknown_user', { username, dbQueryTime });
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
 
   if (!account.active) {
+    console.log(`[LOGIN] Account inactive: ${username}`);
     audit('login_fail_inactive', { username, dbQueryTime });
     return NextResponse.json({ error: 'Account is inactive' }, { status: 401 });
   }
 
   if (account.expires_at && new Date(account.expires_at) < new Date()) {
+    console.log(`[LOGIN] Account expired: ${username}`);
     audit('login_fail_expired', { username, dbQueryTime });
     return NextResponse.json({ error: 'Account has expired' }, { status: 401 });
   }
 
+  console.log(`[LOGIN] Comparing passwords for ${username}`);
   const passwordMatch = await bcrypt.compare(password, account.password_hash);
+  console.log(`[LOGIN] Password match: ${passwordMatch}`);
 
   if (!passwordMatch) {
     audit('login_fail_bad_password', { username, dbQueryTime });
@@ -175,4 +191,3 @@ export async function POST(request: NextRequest) {
     }
   );
 }
-
