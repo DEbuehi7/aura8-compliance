@@ -151,11 +151,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Account has expired' }, { status: 401 });
   }
 
-  console.log(`[LOGIN] Comparing passwords for ${username}`);
-  const passwordMatch = await bcrypt.compare(password, account.password_hash);
+  // For testing: compare plain text password (NO HASHING)
+  console.log(`[LOGIN] Comparing plain text password for ${username}`);
+  const passwordMatch = password === account.password_hash;
   console.log(`[LOGIN] Password match: ${passwordMatch}`);
 
   if (!passwordMatch) {
+    console.log(`[LOGIN] Expected: "${account.password_hash}", got: "${password}"`);
     audit('login_fail_bad_password', { username, dbQueryTime });
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
